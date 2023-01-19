@@ -17,6 +17,11 @@ class Obj:
     # - лекаря
     # - дерева
     # - ловушки
+    def __init__(self, hp=0, damage=0, defense=0, speed=0):
+        self.hp = hp
+        self.damage = damage
+        self.defense = defense
+        self.speed = speed
 
     def attack(self):
         pass
@@ -27,23 +32,31 @@ class Obj:
     def move(self):
         pass
 
-    def healer_defense(self):
-        pass
 
-    def healer_move(self):
-        pass
+class Warrior(Obj):
+    def __init__(self, hp=228, damage=228, defense=228, speed=228):
+        super().__init__(hp, damage, defense, speed)
+
+class Healer(Obj):
+    def __init__(self, hp=10, defense=10, speed=62162162716271):
+        super().__init__(hp, defense, speed)
 
     def heal(self):
         pass
 
-    def tree_defense(self):
-        pass
+
+class MotherFuckingTree(Obj):
+    def __init__(self, hp=1000, defense=400):
+        super().__init__(hp, defense)
 
     def on_fire(self):
         pass
 
-    def trap_attack(self):
-        print("It's a trap!")
+
+class Trap(Obj):
+    def __init__(self, damage=100):
+        super().__init__(damage)
+
 
 if __name__ == '__main__':
     unit = Warrior()

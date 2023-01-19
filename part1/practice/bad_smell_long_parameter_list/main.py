@@ -11,40 +11,50 @@
 
 
 class Unit:
-    def move(self, field, x_coord, y_coord, direction, is_fly, crawl, speed = 1):
+    def __init__(self, position: list, speed=1):
+        self.position = position
+        self.speed = speed
 
-        if is_fly and crawl:
-            raise ValueError('Рожденный ползать летать не должен!')
+    def get_unit_position(self):
+        return self.position
 
-        if is_fly:
-            speed *= 1.2
-            if direction == 'UP':
-                new_y = y_coord + speed
-                new_x = x_coord
-            elif direction == 'DOWN':
-                new_y = y_coord - speed
-                new_x = x_coord
-            elif direction == 'LEFT':
-                new_y = y_coord
-                new_x = x_coord - speed
-            elif direction == 'RIGTH':
-                new_y = y_coord
-                new_x = x_coord + speed
-        if crawl:
-            speed *= 0.5
-            if direction == 'UP':
-                new_y = y_coord + speed
-                new_x = x_coord
-            elif direction == 'DOWN':
-                new_y = y_coord - speed
-                new_x = x_coord
-            elif direction == 'LEFT':
-                new_y = y_coord
-                new_x = x_coord - speed
-            elif direction == 'RIGTH':
-                new_y = y_coord
-                new_x = x_coord + speed
+    def set_unit_position(self, sets: list):
+        if len(sets) >= 2:
+            self.position = sets
+        else:
+            raise "Задано слишком много аргументов. Нужно задать x и y координаты"
 
-            field.set_unit(x=new_x, y=new_y, unit=self)
+    def move(self, sets, direction):
+        if direction == 'UP':
+            up_sets = [sets[0], sets[1] + self.speed]
+            self.set_unit_position(sets=up_sets)
+        elif direction == 'DOWN':
+            down_sets = [sets[0], sets[1] - self.speed]
+            self.set_unit_position(sets=down_sets)
+        elif direction == 'LEFT':
+            left_sets = [sets[0] - self.speed, sets[1]]
+            self.set_unit_position(sets=left_sets)
+        elif direction == 'RIGTH':
+            right_sets = [sets[0] + self.speed, sets[1]]
+            self.set_unit_position(sets=right_sets)
 
-#     ...
+
+class FlyingUnit(Unit):
+    def __init__(self, position):
+        self.position = position
+        self.speed = 1.2
+
+
+class CrawlingUnit(Unit):
+    def __init__(self, position):
+        self.position = position
+        self.speed = 0.5
+
+
+if __name__ == "__main__":
+    u1 = Unit(position=[34294295, 3287472])
+    fu1 = FlyingUnit(position=[34294295, 3287472])
+    cu2 = CrawlingUnit(position=[34294295, 3287472])
+
+    u1.move(sets=[3923929329, 9329392932], direction="UP")
+    print(u1.get_unit_position())
